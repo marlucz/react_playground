@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lifecycle Methods Exercise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone/babel.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+        class App extends React.Component {
+            state = {
+                value: 0
+            }
+
+            handleChangeValue = (value) => {
+                this.setState({
+                    value
+                })
+            }
+
+            handleIncrement = () => {
+                this.setState({
+                    value: this.state.value + 1
+                })
+            }
+
+            handleDecrement = () => {
+                this.setState({
+                    value: this.state.value - 1
+                })
+            }
+
+            render() {
+                const { value } = this.state;
+                return (
+                    <div>
+                        <input type="number" value={value} onChange={(e) => this.handleChangeValue(e.target.value)} />
+                        <ChildrenComponent value={value} increment={this.handleIncrement} decrement={this.handleDecrement} />
+                    </div>
+                )
+            }
+        }
+
+        const ChildrenComponent = ({ value, increment, decrement }) => (
+            <div>
+                <button onClick={decrement}>-</button>
+                <output>{value}</output>
+                <button onClick={increment}>+</button>
+            </div>
+        )
+
+
+        ReactDOM.render(<App />, document.getElementById("app"));
+
+    </script>
+</body>
+
+
+
+</html>
