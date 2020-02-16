@@ -1,54 +1,67 @@
 import React from "react";
 
+import AppHeader from "./AppHeader";
 import UsersList from "./UsersList";
 
 import "./App.css";
 
 class App extends React.Component {
   state = {
-    usersList: [],
-    filteredUsers: [],
-    selectedUser: null
+    usersList: null,
+    filteredUsers: null
   };
 
   componentDidMount = async () => {
-    const users = await fetch("https://jsonplaceholder.typicode.com/users")
+    const usersList = await fetch(
+      "https://randomuser.me/api/?format=json&results=10"
+    )
       .then(response => response.json())
-      .then(json => json.map(({ name }) => name));
+      .then(json => {
+        return json.results.map(user => {
+          const avatarUrl = user.picture.thumbnail;
+          const { title, first, last } = user.name;
+          const name = `${title} ${first} ${last}`.trim();
+          const phone = user.phone;
+          const key = user.login.username;
+          return { avatarUrl, name, phone, key };
+        });
+      });
+
     this.setState({
-      usersList: users,
-      filteredUsers: users
+      usersList,
+      filteredUsers: usersList
     });
   };
 
   getFilteredUsersFromInput = input => {
-    return this.state.usersList.filter(user =>
-      user.toLowerCase().includes(input.toLowerCase())
+    return this.state.usersList.filter(({ name }) =>
+      name.toLowerCase().includes(input.toLowerCase())
     );
-  };
-
-  onUserSelected = selectedUser => {
-    this.setState({
-      selectedUser
-    });
   };
 
   filterUsers = e => {
     const input = e.target.value;
     const filteredUsers = this.getFilteredUsersFromInput(input);
     this.setState({
-      filteredUsers: filteredUsers
+      filteredUsers
     });
   };
 
   render() {
-    const { filteredUsers, selectedUser } = this.state;
+    const { filteredUsers } = this.state;
 
     return (
       <div>
+        <AppHeader />
         <input onInput={this.filterUsers} />
-        <UsersList selectUser={this.onUserSelected} users={filteredUsers} />
-        {selectedUser ? <div>{selectedUser}</div> : ""}
+        {filteredUsers ? (
+          <UsersList
+            selectUser={this.onUserSelected}
+            usersList={filteredUsers}
+          />
+        ) : (
+          "Loading data..."
+        )}
       </div>
     );
   }

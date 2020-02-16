@@ -1,11 +1,18 @@
 import React from "react";
 
-const UsersList = ({ users, selectUser }) => {
-  if (users.length > 0) {
+import UserItem from "./UserItem";
+
+const UsersList = ({ usersList}) => {
+  if (usersList.length > 0) {
     return (
       <ul>
-        {users.map(user => (
-          <li key={user} onClick={() => selectUser(user)}>{user}</li>
+        {usersList.map(user => (
+          <UserItem
+            key={user.key}
+            avatarUrl={user.avatarUrl}
+            name={user.name}
+            phone={user.phone}
+          />
         ))}
       </ul>
     );
