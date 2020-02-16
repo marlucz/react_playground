@@ -7,7 +7,8 @@ import "./App.css";
 class App extends React.Component {
   state = {
     usersList: [],
-    filteredUsers: []
+    filteredUsers: [],
+    selectedUser: null
   };
 
   componentDidMount = async () => {
@@ -26,6 +27,12 @@ class App extends React.Component {
     );
   };
 
+  onUserSelected = selectedUser => {
+    this.setState({
+      selectedUser
+    });
+  };
+
   filterUsers = e => {
     const input = e.target.value;
     const filteredUsers = this.getFilteredUsersFromInput(input);
@@ -35,12 +42,13 @@ class App extends React.Component {
   };
 
   render() {
-    const { filteredUsers } = this.state;
+    const { filteredUsers, selectedUser } = this.state;
 
     return (
       <div>
         <input onInput={this.filterUsers} />
-        <UsersList users={filteredUsers} />
+        <UsersList selectUser={this.onUserSelected} users={filteredUsers} />
+        {selectedUser ? <div>{selectedUser}</div> : ""}
       </div>
     );
   }
