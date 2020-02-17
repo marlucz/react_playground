@@ -2,14 +2,15 @@ import React from "react";
 
 import AppHeader from "./appHeader.component/AppHeader";
 import UsersList from "./usersList.component/UsersList";
-import SemanticInput from "./input.component/input";
+import SemanticInput from "./input.component/SemanticInput";
 
 import "./App.css";
 
 class App extends React.Component {
   state = {
     usersList: null,
-    filteredUsers: null
+    filteredUsers: null,
+    inputValue: ""
   };
 
   componentDidMount = async () => {
@@ -40,21 +41,25 @@ class App extends React.Component {
     );
   };
 
-  filterUsers = e => {
+  handleInputChange = e => {
     const input = e.target.value;
     const filteredUsers = this.getFilteredUsersFromInput(input);
     this.setState({
-      filteredUsers
+      filteredUsers,
+      inputValue: input
     });
   };
 
   render() {
-    const { filteredUsers } = this.state;
+    const { filteredUsers, inputValue } = this.state;
 
     return (
       <div>
         <AppHeader />
-        <SemanticInput filterUsers={this.filterUsers} />
+        <SemanticInput
+          filterUsers={this.handleInputChange}
+          inputValue={inputValue}
+        />
         {filteredUsers ? (
           <UsersList
             selectUser={this.onUserSelected}

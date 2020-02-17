@@ -5,12 +5,13 @@ const inputStyle = {
     marginLeft:'20px'
 }
 
-const SemanticInput = ({ filterUsers }) => (
+const SemanticInput = ({ inputValue, filterUsers }) => (
   <div className="ui left icon input" style={inputStyle}>
     <input
       type="text"
       placeholder="Search users..."
-      onInput={e => filterUsers(e)}
+      value={inputValue}
+      onChange={filterUsers}
     />
     <i className="users icon" />
   </div>
