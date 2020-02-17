@@ -1,7 +1,8 @@
 import React from "react";
 
-import AppHeader from "./AppHeader";
-import UsersList from "./UsersList";
+import AppHeader from "./appHeader.component/AppHeader";
+import UsersList from "./usersList.component/UsersList";
+import SemanticInput from "./input.component/input";
 
 import "./App.css";
 
@@ -53,7 +54,7 @@ class App extends React.Component {
     return (
       <div>
         <AppHeader />
-        <input onInput={this.filterUsers} />
+        <SemanticInput filterUsers={this.filterUsers} />
         {filteredUsers ? (
           <UsersList
             selectUser={this.onUserSelected}

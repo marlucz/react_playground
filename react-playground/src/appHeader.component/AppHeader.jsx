@@ -4,7 +4,7 @@ const AppHeader = () => {
     return (
         <header className="ui fixed menu">
         <nav className="ui container">
-          <a href="#" className="header item">
+          <a href="/" className="header item">
             Users List
           </a>
           <div className="header item">

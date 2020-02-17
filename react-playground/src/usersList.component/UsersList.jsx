@@ -1,11 +1,11 @@
 import React from "react";
 
-import UserItem from "./UserItem";
+import UserItem from "../userItem.component/UserItem";
 
 const UsersList = ({ usersList}) => {
   if (usersList.length > 0) {
     return (
-      <ul>
+      <ul className="ui realxed divided list">
         {usersList.map(user => (
           <UserItem
             key={user.key}
