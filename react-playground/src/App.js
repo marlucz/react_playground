@@ -4,6 +4,8 @@ import AppHeader from "./appHeader.component/AppHeader";
 import UsersList from "./usersList.component/UsersList";
 import SemanticInput from "./input.component/SemanticInput";
 
+import AppContext from "./context";
+
 import "./App.css";
 
 class App extends React.Component {
@@ -51,23 +53,19 @@ class App extends React.Component {
   };
 
   render() {
-    const { filteredUsers, inputValue } = this.state;
+    const { filteredUsers } = this.state;
+    const contextElements = {
+      ...this.state,
+      filterUsers: this.handleInputChange
+    };
 
     return (
       <div>
         <AppHeader />
-        <SemanticInput
-          filterUsers={this.handleInputChange}
-          inputValue={inputValue}
-        />
-        {filteredUsers ? (
-          <UsersList
-            selectUser={this.onUserSelected}
-            usersList={filteredUsers}
-          />
-        ) : (
-          "Loading data..."
-        )}
+        <AppContext.Provider value={contextElements}>
+          <SemanticInput />
+          {filteredUsers ? <UsersList /> : "Loading data..."}
+        </AppContext.Provider>
       </div>
     );
   }
