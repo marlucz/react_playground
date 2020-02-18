@@ -1,5 +1,8 @@
 import React from "react";
 
+import { connect } from "react-redux";
+import { usersFetched } from "./redux/actions/index";
+
 import AppHeader from "./appHeader.component/AppHeader";
 import UsersList from "./usersList.component/UsersList";
 import SemanticInput from "./input.component/SemanticInput";
@@ -70,5 +73,11 @@ class App extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    contacts: state.conta
+  };
+};
 
 export default App;
