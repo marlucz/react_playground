@@ -1,33 +1,21 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import { usersFetched } from "./redux/actions/index";
+import { fetchUsers } from "./redux/actions/index";
 import { getFilteredUsers } from "./redux/selectors/getFilteredUsers";
 
 import AppHeader from "./appHeader.component/AppHeader";
 import UsersList from "./usersList.component/UsersList";
 import SemanticInput from "./input.component/SemanticInput";
+import SeedPicker from "./SeedPicker/SeedPicker";
 
 import "./App.css";
 
 class App extends React.Component {
   state = {};
 
-  componentDidMount = async () => {
-    await fetch("https://randomuser.me/api/?format=json&results=10")
-      .then(response => response.json())
-      .then(json =>
-        this.props.usersFetched(
-          json.results.map(user => {
-            const avatarUrl = user.picture.thumbnail;
-            const { title, first, last } = user.name;
-            const name = `${title} ${first} ${last}`.trim();
-            const phone = user.phone;
-            const key = user.login.username;
-            return { avatarUrl, name, phone, key };
-          })
-        )
-      );
+  componentDidMount = () => {
+    this.props.fetchUsers();
   };
 
   render() {
@@ -36,8 +24,15 @@ class App extends React.Component {
     return (
       <div>
         <AppHeader />
-        <SemanticInput />
-        {isLoading ? <UsersList users={users} /> : "Loading data..."}
+        <main className="ui main text container">
+          <form className="ui large form">
+            <div className="ui segment">
+              <SeedPicker />
+              <SemanticInput />
+            </div>
+          </form>
+          {isLoading ? <UsersList users={users} /> : "Loading data..."}
+        </main>
       </div>
     );
   }
@@ -50,8 +45,6 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = { usersFetched };
+const mapDispatchToProps = { fetchUsers };
 
-export const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
-
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
