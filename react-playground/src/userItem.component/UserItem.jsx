@@ -1,6 +1,7 @@
 import React from "react";
 
 const UserItem = ({ avatarUrl, name, phone }) => {
+
   return (
     <li className="item">
       <img src={avatarUrl} className="ui mini rounded image" alt="" />

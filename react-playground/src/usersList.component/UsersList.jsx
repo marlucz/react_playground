@@ -2,23 +2,25 @@ import React from "react";
 
 import UserItem from "../userItem.component/UserItem";
 
-const UsersList = ({ users }) => {
-  if (users.length > 0) {
+class UsersList extends React.Component {
+  userToItem = user => {
+    const avatarUrl = user.picture.thumbnail;
+    const { title, first, last } = user.name;
+    const name = `${title} ${first} ${last}`.trim();
+    const phone = user.phone;
+    const key = user.login.username;
     return (
-      <ul className="ui realxed divided list">
-        {users.map(user => (
-          <UserItem
-            key={user.key}
-            avatarUrl={user.avatarUrl}
-            name={user.name}
-            phone={user.phone}
-          />
-        ))}
+      <UserItem key={key} avatarUrl={avatarUrl} name={name} phone={phone} />
+    );
+  };
+
+  render() {
+    return (
+      <ul className="ui relaxed divided list selection">
+        {this.props.users.map(this.userToItem)}
       </ul>
     );
   }
-
-  return <p>No results!</p>;
-};
+}
 
 export default UsersList;
