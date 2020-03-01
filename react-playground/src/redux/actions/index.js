@@ -13,6 +13,11 @@ export const changeSeed = seed => ({
   seed
 });
 
+export const changeSeedAndFetch = seed => dispatch => {
+  dispatch(changeSeed(seed));
+  dispatch(fetchUsers());
+};
+
 export const fetchUsers = () => (dispatch, getState) => {
   fetch(
     "https://randomuser.me/api/?format=json&results=10&seed=" +
@@ -20,9 +25,4 @@ export const fetchUsers = () => (dispatch, getState) => {
   )
     .then(res => res.json())
     .then(json => dispatch(usersFetched(json.results)));
-};
-
-export const changeSeedAndFetch = seed => dispatch => {
-  dispatch(changeSeed(seed));
-  dispatch(fetchUsers());
 };
